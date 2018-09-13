@@ -11,7 +11,7 @@ class TweetsController < ApplicationController
       @tweet.save
       respond_to do |format|
         format.json { render json: @tweet }
-        format.html { render html: "<li class='tweet'><p>#{@tweet.message}</p></li>".html_safe }
+        format.html { render html: "<li class='tweet'><p>#{@tweet.message}</p><time>#{@tweet.created_at.strftime('%b %e, %l:%M %p')}</time></li>".html_safe }
       end
 
     else
