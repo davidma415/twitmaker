@@ -8,10 +8,39 @@ document.addEventListener("DOMContentLoaded", function(event) {
       url: this.getAttribute('action'),
       method: this.getAttribute('method'),
       data: $(this).serialize(),
-      dataType: 'html'
+      dataType: 'json'
     }).done(function (responseData) {
       console.log('Request finished');
-      $('.tweets').prepend(responseData);
+      newTweet = document.createElement('li');
+      newTweet.classList = 'tweet';
+      var tweetP = document.createElement('p');
+      tweetP.innerText = responseData.message;
+      var tweetTime = document.createElement('time');
+      // setting up proper formatting of time
+      var currentTime = new Date();
+      var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      var hr = currentTime.getHours();
+      var min = currentTime.getMinutes();
+      var month = months[currentTime.getMonth()];
+      var date = currentTime.getDate();
+
+
+      if (min < 10) {
+        min = "0" + min;
+      }
+      var ampm = "AM";
+      if (hr > 12) {
+        hr -= 12;
+        ampm = "PM";
+      }
+
+      var timeFormatted = month + " " + date + ", " + hr + ":" + min + " " + ampm;
+      tweetTime.innerText = timeFormatted;
+
+      // building tweet with content and timestamp
+      newTweet.append(tweetP);
+      newTweet.append(tweetTime);
+      showTweets.prepend(newTweet);
 
       //reset the form
       tweetForm.reset();
